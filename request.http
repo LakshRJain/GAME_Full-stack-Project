@@ -25,3 +25,6 @@ Content-Type: application/json
     "email": "laksh@example.com"
 }
 
+###
+GET http://localhost:5000/api/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYWtzaEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTc2NjYxMCwiZXhwIjoxNzYyMzcxNDEwfQ.zVrPCOQPWEEJNN51xzJQIegY3xtWwVLY1mN54si6P28
