@@ -3,8 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
+import pool from "./db.js";
 dotenv.config();
 const app=express();
+pool.connect()
+  .then(() => console.log("✅ Connected to PostgreSQL"))
+  .catch(err => console.error("❌ Database connection error:", err));
 app.use(cors());
 app.use(express.json());
 app.use("/api/user", userRoutes);
