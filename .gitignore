@@ -1,0 +1,4 @@
+game-matchmaking-backend/node_modules/
+game-matchmaking-backend/.env
+game-matchmaking-backend/request.http
+game-matchmaking-backend/.DS_Store
