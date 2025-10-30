@@ -69,3 +69,9 @@ jobs:
       - name: Run tests
         run: flutter test
         working-directory: game_matchmaking_frontend
+
+      - name: Build APK (to verify build success)
+        run: flutter build apk --debug
+        working-directory: game_matchmaking_frontend
+
+    
