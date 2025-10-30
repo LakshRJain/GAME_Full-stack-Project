@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:game/viewmodels/auth_viewmodel.dart';
+import 'package:game/viewmodels/profile_viewmodel.dart';
 import 'package:game/views/login_screen.dart';
-import 'package:game/views/profile_screen.dart';
+import 'package:game/views/profile/profile_screen.dart';
 import 'package:game/views/signup_screen.dart';
 import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>AuthViewModel())
+        ChangeNotifierProvider(create: (_)=>AuthViewModel()),
+        ChangeNotifierProvider(create: (_)=>ProfileViewModel())
       ],
       child: const MyApp(),
     )

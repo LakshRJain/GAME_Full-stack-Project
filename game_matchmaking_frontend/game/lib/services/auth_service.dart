@@ -44,7 +44,7 @@ class AuthService {
     final token=await _storage.read(key: 'accessToken');
     if(token==null) return null;
     try{
-      final res=await _dioUser.get('/me',options: Options(headers:{'Authorization':'Bearer $token'}));
+      final res=await _dioUser.get('/profile',options: Options(headers:{'Authorization':'Bearer $token'}));
       return res.data;
     }catch(e){
       print('Profile fetch error $e');

@@ -13,8 +13,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "Lucky@example.com",
-  "password": "123456"
+  "email": "222",
+  "password": "222"
 }
 
 ###
@@ -73,3 +73,17 @@ POST http://localhost:5000/api/auth/logout
 # Authorization: Bearer <accessToken>
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJMdWNreUBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTgxMTYyMiwiZXhwIjoxNzYyNDE2NDIyfQ.hCF_8GChMe0S9iLM9uFqg2WAwhkvuEg18vLMMHUVtas
 
+### GET Profile
+GET http://localhost:5000/api/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiMjIyIiwiaWF0IjoxNzYxODUxMTcwLCJleHAiOjE3NjE4NTIwNzB9.k7SYSUfiKCvif6Z_sYGSs45t73BF633kvj-dUKx34oE
+### UPDATE Profile
+PUT http://localhost:5000/api/user/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiMjIyIiwiaWF0IjoxNzYxODUxMTcwLCJleHAiOjE3NjE4NTIwNzB9.k7SYSUfiKCvif6Z_sYGSs45t73BF633kvj-dUKx34oE
+
+{
+  "username": "LakshRJ",
+  "country": "India",
+  "preferred_game_mode": "duo",
+  "avatar_url": "https://gravatar.com/avatar/b826fa51825f3a0b908748970004d239?s=400&d=robohash&r=x"
+}
