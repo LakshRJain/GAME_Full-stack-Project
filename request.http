@@ -3,8 +3,8 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "Laksh",
-  "email": "laksh@example.com",
+  "username": "Aman",
+  "email": "Aman@example.com",
   "password": "123456"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "laksh@example.com",
+  "email": "Aman@example.com",
   "password": "123456"
 }
 
@@ -26,5 +26,29 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/user/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYWtzaEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTc2NjYxMCwiZXhwIjoxNzYyMzcxNDEwfQ.zVrPCOQPWEEJNN51xzJQIegY3xtWwVLY1mN54si6P28
+GET http://localhost:5000/api/user/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJBbWFuQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYxODAyOTA3LCJleHAiOjE3NjI0MDc3MDd9.-m_6y1TVZbg-KQc5a4QSjYDc3hSogaHh2JW_zKZHJTI
+
+###
+GET http://localhost:5000/api/user/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJBbWFuQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYxODAyOTA3LCJleHAiOjE3NjI0MDc3MDd9.-m_6y1TVZbg-KQc5a4QSjYDc3hSogaHh2JW_zKZHJTI
+
+###
+PUT http://localhost:5000/api/user/changePassword
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJBbWFuQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYxODAyOTA3LCJleHAiOjE3NjI0MDc3MDd9.-m_6y1TVZbg-KQc5a4QSjYDc3hSogaHh2JW_zKZHJTI
+Content-Type: application/json
+
+{
+  "oldPassword":"123456",
+  "newPassword":"111111"
+}
+
+###
+PUT http://localhost:5000/api/user/updateProfile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJBbWFuQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYxODAyOTA3LCJleHAiOjE3NjI0MDc3MDd9.-m_6y1TVZbg-KQc5a4QSjYDc3hSogaHh2JW_zKZHJTI
+Content-Type: application/json
+
+{
+  "username":"Aman Kumar",
+  "email":"Aman@example.com"
+}
