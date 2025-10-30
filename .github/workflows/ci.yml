@@ -45,6 +45,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: backend  
 
+    defaults:
+      run:
+        working-directory: game_matchmaking_frontend/game
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,24 +58,15 @@ jobs:
         with:
           flutter-version: "3.35.6"
           channel: stable
-        
-      - name: Go to Flutter project directory
-        run: cd game_matchmaking_frontend
 
       - name: Get Dependencies
         run: flutter pub get
-        working-directory: game_matchmaking_frontend
 
       - name: Analyze code
         run: flutter analyze
-        working-directory: game_matchmaking_frontend
 
       - name: Run tests
         run: flutter test
-        working-directory: game_matchmaking_frontend
 
-      - name: Build APK (to verify build success)
-        run: flutter build apk --debug
-        working-directory: game_matchmaking_frontend
-
-    
+      - name: Build APK
+        run: flutter build apk
