@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
-import jwt, { decode } from "jsonwebtoken";
-import pool from "../db.js";
-import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import pool from "../db.js";import dotenv from "dotenv";
 dotenv.config();
 
 export const register = async(req,res)=>{
@@ -54,6 +53,8 @@ export const removeUser=async(req,res)=>{
         const user=result.rows[0];
         res.status(200).json({message:"User deleted",user});
     }catch(err){
+        console.error(err);
+        console.error(err);
         res.status(500).jaon({message:"Serevr error"});
     }
 }
