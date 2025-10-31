@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game/viewmodels/auth_viewmodel.dart';
+import 'package:game/viewmodels/matchmaking_viewmodel.dart';
 import 'package:game/viewmodels/profile_viewmodel.dart';
 import 'package:game/views/login_screen.dart';
 import 'package:game/views/profile/profile_screen.dart';
@@ -10,7 +11,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_)=>AuthViewModel()),
-        ChangeNotifierProvider(create: (_)=>ProfileViewModel())
+        ChangeNotifierProvider(create: (_)=>ProfileViewModel()),
+        ChangeNotifierProvider(create: (_)=>MatchmakingViewmodel())
       ],
       child: const MyApp(),
     )

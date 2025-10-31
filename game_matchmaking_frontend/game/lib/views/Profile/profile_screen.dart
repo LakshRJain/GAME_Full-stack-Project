@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game/models/user_model.dart';
+import 'package:game/viewmodels/matchmaking_viewmodel.dart';
+import 'package:game/views/matchmaking_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:game/viewmodels/profile_viewmodel.dart';
 import 'package:game/views/profile/widgets/avatar_section.dart';
@@ -20,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    
     nameController = TextEditingController();
     countryController = TextEditingController();
     Future.microtask(() {
@@ -38,7 +41,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final profileVM = Provider.of<ProfileViewModel>(context);
-
+    final MatchVM = Provider.of<MatchmakingViewmodel>(context);
+    
     if (profileVM.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -56,6 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MatchmakingScreen()));
+      },child: Text('Match'),),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text('Profile'),
