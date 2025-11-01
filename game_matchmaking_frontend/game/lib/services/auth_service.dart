@@ -8,13 +8,15 @@ class AuthService {
   final _storage = const FlutterSecureStorage();
 
   //Sign up
-  Future<bool> register(String username,String email,String password,String country) async{
+  Future<bool> register(String username,String email,String password,String country,String rank,String avatar_url) async{
     try{
       final res=await _dioAuth.post('/register',data: {
         'username':username,
         'email':email,
         'password':password,
-        'country':country
+        'country':country,
+        'rank':rank,
+        'avatarUrl':avatar_url
       });
       return res.statusCode==201;
     }catch(e){

@@ -4,8 +4,9 @@ Content-Type: application/json
 
 {
   "username": "555",
-  "email": "555",
-  "password": "123456"
+  "email": "666",
+  "password": "123456",
+  "country": "India"
 }
 
 ###
