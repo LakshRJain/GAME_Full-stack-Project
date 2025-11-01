@@ -61,6 +61,10 @@ jobs:
 
       - name: Get Dependencies
         run: flutter pub get
+      - name: Create .env file
+        run: |
+          echo "PUBLIC_IP=${{ secrets.PUBLIC_IP }}" >> .env
+          # Add more lines for each secret you need
 
       - name: Build APK
         run: flutter build apk
