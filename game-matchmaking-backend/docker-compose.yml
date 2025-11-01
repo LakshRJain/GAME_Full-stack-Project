@@ -27,9 +27,9 @@ services:
     restart: always
     ports:
       - "5000:5000"
-      - "5001:5001" 
+      - "5001:5001"
     environment:
-      - DATABASE_URL=postgresql://postgres:admin123@localhost:5432/matchmakingdb
+      - DATABASE_URL=postgresql://postgres:admin123@postgres:5432/game_db
       - REDIS_URL=redis://redis:6379
       - JWT_SECRET=supersecretkey
       - PORT=5000
