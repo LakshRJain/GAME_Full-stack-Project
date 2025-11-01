@@ -74,16 +74,22 @@ jobs:
     needs: backend
     steps:
       - name: Checkout code
-        uses: action/checkout@v3
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
       - name: Connect to EC2 and deploy
-        uses: appleboy/ssh-actions@v1.0.0
+        uses: appleboy/ssh-action@v1.1.10
         with:
           host: ${{secrets.EC2_HOST}}
           username: ${{secrets.EC2_USER}}
           key: ${{secrets.EC2_SSH_KEYS}}
           script: |
-            cd ~/GAME_Full-stack-Project/game-matchmaking-backend
+            cd GAME_Full-stack-Project
             git pull origin main
+            cd game-matchmaking-backend
             sudo docker compose down
             sudo docker compose up -d --build
