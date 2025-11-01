@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
-  final Dio _dioAuth=Dio(BaseOptions(baseUrl: 'http://10.0.2.2:5000/api/auth'));
-  final Dio _dioUser=Dio(BaseOptions(baseUrl: 'http://10.0.2.2:5000/api/user'));
+  final Dio _dioAuth=Dio(BaseOptions(baseUrl: 'http://${dotenv.env['PUBLIC_IP']}:5000/api/auth'));
+  final Dio _dioUser=Dio(BaseOptions(baseUrl: 'http://${dotenv.env['PUBLIC_IP']}:5000/api/user'));
   final _storage = const FlutterSecureStorage();
 
   //Sign up
-  Future<bool> register(String username,String email,String password) async{
+  Future<bool> register(String username,String email,String password,String country) async{
     try{
       final res=await _dioAuth.post('/register',data: {
         'username':username,
         'email':email,
-        'password':password
+        'password':password,
+        'country':country
       });
       return res.statusCode==201;
     }catch(e){

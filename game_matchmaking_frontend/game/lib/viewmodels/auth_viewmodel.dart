@@ -11,10 +11,10 @@ class AuthViewModel extends ChangeNotifier{
   UserModel? get user =>_user;
   bool get isLoading => _isLoading;
 
-  Future<void> register(String username,String email,String password) async{
+  Future<void> register(String username,String email,String password,String country) async{
     _isLoading=true;
     notifyListeners();
-    final success = await _authService.register(username, email, password);
+    final success = await _authService.register(username, email, password, country);
 
     if(success){
       await login(email, password);

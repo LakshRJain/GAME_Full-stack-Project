@@ -28,11 +28,9 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.listen(process.env.PORT,()=>{
-    console.log("SERVER RUNNING ON PORT "+process.env.PORT);
+    console.log("APP RUNNING ON PORT "+process.env.PORT);
 })
 
-
-let queue=[];
 io.on("connection",(socket)=>{
   console.log("User connected: ",socket.id);
 
@@ -55,8 +53,6 @@ io.on("connection",(socket)=>{
     console.log("User disconnected:", socket.id);
   });
 });
-
-
 
 server.listen(process.env.SERVER_PORT,()=>{
   console.log("SERVER RUNNING ON PORT ",process.env.SERVER_PORT)

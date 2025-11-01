@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:game/models/user_model.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ProfileRepository {
-  final _dio=Dio(BaseOptions(baseUrl: "http://10.0.2.2:5000/api/user"));
+  final _dio=Dio(BaseOptions(baseUrl: "http://${dotenv.env['PUBLIC_IP']}:5000/api/user"));
   final _storage= FlutterSecureStorage();
 
   Future<UserModel> fetchProfile() async{

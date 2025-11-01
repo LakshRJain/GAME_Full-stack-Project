@@ -6,7 +6,9 @@ import 'package:game/views/login_screen.dart';
 import 'package:game/views/profile/profile_screen.dart';
 import 'package:game/views/signup_screen.dart';
 import 'package:provider/provider.dart';
-void main() {
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       home: Consumer<AuthViewModel>(
         builder: (context,authVM,_){
           if(authVM.user!=null){
-            return Scaffold();
+            return const ProfileScreen();
           }else{
             return const LoginScreen();
           }

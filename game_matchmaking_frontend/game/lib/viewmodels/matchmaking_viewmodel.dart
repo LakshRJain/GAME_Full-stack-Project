@@ -11,7 +11,7 @@ class MatchmakingViewmodel extends ChangeNotifier{
   Map<String,dynamic>? get matchData => _matchData;
 
   void connect(String username,String preferredMode){
-      _socket=IO.io("http://10.0.2.2:5001",IO.OptionBuilder()
+      _socket=IO.io("http://65.1.110.6:5001",IO.OptionBuilder()
       .setTransports(['websocket'])
       .disableAutoConnect()
       .build()
