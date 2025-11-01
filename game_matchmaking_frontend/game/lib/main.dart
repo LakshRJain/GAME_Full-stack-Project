@@ -33,13 +33,13 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
-        '/profile':(context)=>const ProfileScreen()
+        '/profile':(context)=> ProfileScreen()
       },
 
       home: Consumer<AuthViewModel>(
         builder: (context,authVM,_){
           if(authVM.user!=null){
-            return const ProfileScreen();
+            return ProfileScreen();
           }else{
             return const LoginScreen();
           }
