@@ -67,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   SizedBox(height: 20,),
                   TextFormField(
-                    controller: _passCtrl,
+                    controller: _countryCtrl,
                     decoration: const InputDecoration(
                       labelText: 'country'
                     ),
