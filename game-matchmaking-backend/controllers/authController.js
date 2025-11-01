@@ -8,12 +8,18 @@ export const register = async(req,res)=>{
     try{
         const hashedPassword=await bcrypt.hash(password,10);
         const result=await pool.query(
-            "INSERT INTO users (username,email,password,games_played,wins,country,avatar_url ) VALUES ($1,$2,$3,0,0,$4,$5) RETURNING id,username,email",[username,email,hashedPassword,country,avatarUrl]
+            'INSERT INTO users (username,email,password,games_played,wins,country,"rank",avatar_url) VALUES ($1,$2,$3,0,0,$4,$5,$6) RETURNING id,username,email',
+            [username,email,hashedPassword,country || null,rank || null,avatarUrl || null]
         );
         res.status(201).json({message:"user registered",user:result.rows[0]});
     }catch(err){
-        console.error(err);
-        res.status(500).json({message:"User alreasy exist or DB errro"})
+        console.error("Registration error:", err);
+        console.error("Error code:", err.code);
+        console.error("Error message:", err.message);
+        if(err.code === '23505'){ // Unique violation
+            return res.status(409).json({message:"User already exists"});
+        }
+        res.status(500).json({message:"User already exists or DB error", error: err.message})
     }
 }
 

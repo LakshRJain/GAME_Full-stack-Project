@@ -13,7 +13,7 @@ class AuthViewModel extends ChangeNotifier{
 
   Future<void> register(String username,String email,String password,String country) async{
     _isLoading=true;
-    final rank='Iron';
+    String rank='Iron';
     final avatarUrl='https://gravatar.com/avatar/6b6b69da5c88718d32bc60e754f59ed9?s=400&d=robohash&r=x';
     notifyListeners();
     final success = await _authService.register(username, email, password, country,rank,avatarUrl);

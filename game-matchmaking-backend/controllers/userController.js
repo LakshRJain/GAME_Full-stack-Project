@@ -5,7 +5,7 @@ export const getProfile = async (req,res)=>{
     try{
         const userId=req.user.id;
         const result=await pool.query(
-            "SELECT id, username, email, rank, games_played, wins, preferred_game_mode, country, avatar_url, created_at FROM users WHERE id=$1",
+            'SELECT id, username, email, "rank", games_played, wins, preferred_game_mode, country, avatar_url, created_at FROM users WHERE id=$1',
             [userId]
         );
 
@@ -30,7 +30,7 @@ export const updateProfiler = async (req,res) => {
             country= COALESCE($2,country),
             preferred_game_mode= COALESCE($3,preferred_game_mode),
             avatar_url= COALESCE($4,avatar_url) 
-            WHERE id=$5 RETURNING id, username, email, rank, games_played, wins, preferred_game_mode, country, avatar_url`,
+            WHERE id=$5 RETURNING id, username, email, "rank", games_played, wins, preferred_game_mode, country, avatar_url`,
             [username,country,preferred_game_mode,avatar_url,userId]
         );
         res.json(result.rows[0]);
