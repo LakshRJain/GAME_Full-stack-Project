@@ -4,20 +4,68 @@ import pool from "../db.js";import dotenv from "dotenv";
 dotenv.config();
 
 export const register = async(req,res)=>{
-    const {username,email,password,country,rank,avatarUrl}=req.body;
+    // Handle both camelCase and snake_case from frontend
+    const {username,email,password,country,rank,avatarUrl,avatar_url}=req.body;
+    const finalAvatarUrl = avatarUrl || avatar_url;
+    
     try{
+        // Validate required fields
+        if(!username || !email || !password){
+            return res.status(400).json({message:"Username, email, and password are required"});
+        }
+        
         const hashedPassword=await bcrypt.hash(password,10);
-        const result=await pool.query(
-            'INSERT INTO users (username,email,password,games_played,wins,country,"rank",avatar_url) VALUES ($1,$2,$3,0,0,$4,$5,$6) RETURNING id,username,email',
-            [username,email,hashedPassword,country || null,rank || null,avatarUrl || null]
-        );
+        
+        // Use fully quoted column names to avoid any reserved word issues
+        const query = `INSERT INTO users (
+            "username",
+            "email", 
+            "password", 
+            "games_played", 
+            "wins", 
+            "country", 
+            "rank", 
+            "avatar_url"
+        ) VALUES ($1, $2, $3, 0, 0, $4, $5, $6) 
+        RETURNING "id", "username", "email"`;
+        
+        const params = [
+            username,
+            email,
+            hashedPassword,
+            country || null,
+            rank || null,
+            finalAvatarUrl || null
+        ];
+        
+        console.log("=== REGISTRATION DEBUG ===");
+        console.log("Request body:", JSON.stringify(req.body, null, 2));
+        console.log("Executing query:", query);
+        console.log("With parameters:", params.map((p, i) => `$${i+1}: ${typeof p === 'string' ? p.substring(0, 20) : p}`));
+        console.log("========================");
+        
+        const result=await pool.query(query, params);
         res.status(201).json({message:"user registered",user:result.rows[0]});
     }catch(err){
-        console.error("Registration error:", err);
+        console.error("=== REGISTRATION ERROR ===");
+        console.error("Full error object:", JSON.stringify(err, null, 2));
         console.error("Error code:", err.code);
         console.error("Error message:", err.message);
+        console.error("Error detail:", err.detail);
+        console.error("Error position:", err.position);
+        console.error("Error hint:", err.hint);
+        console.error("==========================");
+        
         if(err.code === '23505'){ // Unique violation
             return res.status(409).json({message:"User already exists"});
+        }
+        if(err.code === '42703'){ // Undefined column
+            return res.status(500).json({
+                message:"Database schema error", 
+                error: err.message,
+                position: err.position,
+                hint: err.hint || "Please check if all columns exist in the users table"
+            });
         }
         res.status(500).json({message:"User already exists or DB error", error: err.message})
     }
