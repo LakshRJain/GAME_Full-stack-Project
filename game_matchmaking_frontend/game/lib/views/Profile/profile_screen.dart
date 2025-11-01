@@ -4,9 +4,9 @@ import 'package:game/viewmodels/matchmaking_viewmodel.dart';
 import 'package:game/views/matchmaking_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:game/viewmodels/profile_viewmodel.dart';
-import 'package:game/views/profile/widgets/avatar_section.dart';
-import 'package:game/views/profile/widgets/stats_grid.dart';
-import 'package:game/views/profile/widgets/profile_form.dart';
+import 'package:game/views/Profile/widgets/avatar_section.dart';
+import 'package:game/views/Profile/widgets/stats_grid.dart';
+import 'package:game/views/Profile/widgets/profile_form.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
