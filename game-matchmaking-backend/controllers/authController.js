@@ -86,7 +86,7 @@ export const login=async(req,res)=>{
         }
         console.log("Password verified\n");
         const accessToken=jwt.sign({id:user.id,email:user.email},process.env.JWT_SECRET,{expiresIn:"15m"});
-        const refereshToken=jwt.sign({id:user.id,email:user.email},process.env.JWT_REFRESH_SECRET,{expiresIn:"7d"})
+        const refereshToken=jwt.sign({id:user.id,email:user.email},process.env.REFRESH_SECRET,{expiresIn:"7d"})
         await pool.query(
             "UPDATE users SET refresh_token=$1 WHERE id=$2",[refereshToken,user.id]
         );
@@ -117,7 +117,7 @@ export const refreshToken = async (req,res)=>{
     const {token}=req.body;
     if(!token) return res.status(401).json({message:"No token provided"});
     try{
-        const decoded = jwt.verify(token,process.env.JWT_REFRESH_SECRET);
+        const decoded = jwt.verify(token,process.env.REFRESH_SECRET);
         const result=await pool.query("SELECT refresh_token FROM users WHERE id=$1",[decoded.id]);
         const storedToken=result.rows[0]?.refresh_token;
 
@@ -126,7 +126,7 @@ export const refreshToken = async (req,res)=>{
         }
 
         const newAccessToken=jwt.sign({id:decoded.id,email:decoded.email},process.env.JWT_SECRET,{expiresIn:"15m"});
-        const newRefreshToken=jwt.sign({id:decoded.id,email:decoded.email},process.env.JWT_REFRESH_SECRET,{expiresIn:"7d"});
+        const newRefreshToken=jwt.sign({id:decoded.id,email:decoded.email},process.env.REFRESH_SECRET,{expiresIn:"7d"});
 
         await pool.query(
             "UPDATE users SET refresh_token=$1 WHERE id=$2",[newRefreshToken,decoded.id]
