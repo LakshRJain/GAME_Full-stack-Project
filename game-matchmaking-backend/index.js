@@ -7,9 +7,10 @@ import pool from "./db.js";
 import http from 'http';
 import { Server } from "socket.io";
 import { joinQueue, findMatch, leaveQueue } from "./controllers/matchmaking.js";
-
+import redisClient, { connectRedis } from "./redis_client.js";
 dotenv.config();
 
+await connectRedis();
 const app=express();
 const server=http.createServer(app);
 const io=new Server(server,{
@@ -27,10 +28,9 @@ app.use(express.json());
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
-app.listen(process.env.PORT,()=>{
-    console.log("SERVER RUNNING ON PORT "+process.env.PORT);
-})
-
+app.listen(process.env.PORT, '0.0.0.0', () => {
+  console.log("APP RUNNING ON PORT " + process.env.PORT);
+});
 
 let queue=[];
 io.on("connection",(socket)=>{
@@ -58,6 +58,6 @@ io.on("connection",(socket)=>{
 
 
 
-server.listen(process.env.SERVER_PORT,()=>{
+server.listen(process.env.SERVER_PORT,'0.0.0.0',()=>{
   console.log("SERVER RUNNING ON PORT ",process.env.SERVER_PORT)
 })
