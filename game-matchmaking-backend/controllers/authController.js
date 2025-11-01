@@ -28,7 +28,6 @@ export const register = async(req,res)=>{
             "avatar_url"
         ) VALUES ($1, $2, $3, 0, 0, $4, $5, $6) 
         RETURNING "id", "username", "email"`;
-        
         const params = [
             username,
             email,
