@@ -84,6 +84,7 @@ export const login=async(req,res)=>{
         if(!isValid){
             return res.status(401).json({message:"Invalid credentials:"});
         }
+        console.log("Password verified\n");
         const accessToken=jwt.sign({id:user.id,email:user.email},process.env.JWT_SECRET,{expiresIn:"15m"});
         const refereshToken=jwt.sign({id:user.id,email:user.email},process.env.JWT_REFRESH_SECRET,{expiresIn:"7d"})
         await pool.query(

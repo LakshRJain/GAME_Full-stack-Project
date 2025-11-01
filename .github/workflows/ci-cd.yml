@@ -89,7 +89,8 @@ jobs:
           key: ${{secrets.EC2_SSH_KEY}}
           script: |
             cd GAME_Full-stack-Project
-            git pull origin main
             cd game-matchmaking-backend
+            git pull origin main
+            echo "PUBLIC_IP=${{ secrets.PUBLIC_IP }}" >> .env
             sudo docker compose down
             sudo docker compose up -d --build
