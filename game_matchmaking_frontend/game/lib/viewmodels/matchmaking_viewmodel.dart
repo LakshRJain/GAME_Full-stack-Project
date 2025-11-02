@@ -1,4 +1,5 @@
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,8 @@ class MatchmakingViewmodel extends ChangeNotifier{
   bool get searching =>_searching;
   Map<String,dynamic>? get matchData => _matchData;
 
-  void connect(String username,String preferredMode){
-      _socket=IO.io("http://65.1.110.6:5001",IO.OptionBuilder()
+  void connect(String username,String preferredMode,String rank){
+      _socket=IO.io("http://${dotenv.env['PUBLIC_IP']}:5001",IO.OptionBuilder()
       .setTransports(['websocket'])
       .disableAutoConnect()
       .build()
@@ -19,7 +20,7 @@ class MatchmakingViewmodel extends ChangeNotifier{
     _socket.connect();
     _socket.onConnect((_){
       print("Conneced to matchmaking server");
-      joinQueue(username,preferredMode);
+      joinQueue(username,preferredMode,rank);
     });
     _socket.on("match_found", (data) {
       _matchData = data;
@@ -32,11 +33,12 @@ class MatchmakingViewmodel extends ChangeNotifier{
 
   }
 
-  void joinQueue(String username,String preferredMode){
+  void joinQueue(String username,String preferredMode,String rank){
     _searching=true;
     _socket.emit("join_queue",{
       "username":username,
-      "preferredMode":preferredMode
+      "preferredMode":preferredMode,
+      "rank":rank
     });
     notifyListeners();
   }

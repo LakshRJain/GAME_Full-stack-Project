@@ -14,6 +14,14 @@ class MatchmakingScreen extends StatefulWidget {
 
 class _MatchmakingScreenState extends State<MatchmakingScreen> {
   late MatchmakingViewmodel vm;
+  @override
+  void dispose() {
+    if(vm.searching){
+      vm.leaveQueueAndDisconnect();
+      print("Hiii");
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +31,20 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
       appBar: AppBar(title: const Text('Match Making'),),
       body: Center(
         child: vm.searching?
-        const Text('Searching for match...'):
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:[
+            const Text('Searching for match...'),
+            TextButton(onPressed: (){
+              vm.leaveQueueAndDisconnect();
+            }, child: const Text('Cancel Search'))
+          ]
+        ):
         vm.matchData!=null?Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Match Found'),
-            Text("Opponent: ${vm.matchData!['players'][1]['username']}"),
+            Text("${vm.matchData!['players'][0]['username']} : ${vm.matchData!['players'][1]['username']}"),
             ElevatedButton(onPressed: (){
               vm.leaveQueueAndDisconnect();
             }, 
@@ -37,7 +53,7 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
         ):
         ElevatedButton(onPressed: (){
           final _user=profileVM.user;
-          vm.connect(_user!.username, _user.preferredGameMode!);
+          vm.connect(_user!.username, _user.preferredGameMode!,_user.rank!);
         }, child: const Text("Find Match"))
       ),
     );

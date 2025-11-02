@@ -7,7 +7,7 @@ import pool from "./db.js";
 import http from 'http';
 import { Server } from "socket.io";
 import { joinQueue, findMatch, leaveQueue } from "./controllers/matchmaking.js";
-import redisClient, { connectRedis } from "./redis_client.js";
+import { connectRedis } from "./redis_client.js";
 dotenv.config();
 
 await connectRedis();
@@ -37,10 +37,10 @@ io.on("connection",(socket)=>{
   console.log("User connected: ",socket.id);
 
   socket.on("join_queue",async (data)=>{
-    const player = { id: socket.id, username: data.username, mode: data.preferredMode };
+    const player = { id: socket.id, username: data.username, mode: data.preferredMode,rank:data.rank };
     const joined= joinQueue(player);
     if (!joined) return;
-    const match = await findMatch();
+    const match = await findMatch(player.rank);
     if (match) {
       match.players.forEach((p) => {
         io.to(p.id).emit("match_found", match);

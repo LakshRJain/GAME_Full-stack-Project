@@ -28,6 +28,7 @@ class AuthService {
   //Login
   Future<bool> login(String email,String password) async{
     try{
+      print(dotenv.env['PUBLIC_IP']);
       final res=await _dioAuth.post('/login',data :{
         'email':email,
         'password':password

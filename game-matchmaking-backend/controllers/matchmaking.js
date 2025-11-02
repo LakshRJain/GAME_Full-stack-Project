@@ -1,40 +1,88 @@
 import redisClient from "../redis_client.js";
 
-const QUEUE_KEY="matchmaking:queue";
-const PLAYER_SET_KEY="matchmaking:players";
+const QUEUE_KEY = "matchmaking_queue";
+const rankOrder = ["Iron", "Bronze", "Silver", "Gold"];
 
+const queueKeyForRank = (rank) => `matchmaking_queue_${rank}`;
 
-export async function joinQueue(player){
-    const added=await redisClient.sAdd(PLAYER_SET_KEY,player.id);
-    if(added===0){
-        console.log(`${player.username} already in queue`);
-        return false;
-    }
-
-    await redisClient.lPush(QUEUE_KEY, JSON.stringify(player));
-    console.log(`${player.username} joined queue`);
-    return true;
-}
-
-export async function findMatch(){
-    const player1=await redisClient.rPop(QUEUE_KEY);
-    if(!player1) return null;
-    const player2 = await redisClient.rPop(QUEUE_KEY);
-    if (!player2) {
-        await redisClient.lPush(QUEUE_KEY, player1);
-        return null;
-    }
+export const joinQueue = async (player) => {
+    const queueKey = queueKeyForRank(player.rank);
+    const players = JSON.parse(await redisClient.get(queueKey)) || [];
     
-    const p1 = JSON.parse(player1);
-    const p2 = JSON.parse(player2);
-    const removed= redisClient.sRem(PLAYER_SET_KEY, p1.id, p2.id);
-    console.log(`🧹 Removed ${removed} players from set`);
+    const filtered = players.filter(
+        (p) => p.id !== player.id && p.username !== player.username
+    );
 
-    console.log(`🎯 Matched ${p1.username} vs ${p2.username}`);
-    return { players: [p1, p2] };
-}
+    filtered.push(player);
+    await redisClient.set(queueKey, JSON.stringify(filtered));
 
-export async function leaveQueue(playerId) {
-  await redisClient.sRem(PLAYER_SET_KEY, playerId);
-  console.log(`🚪 Player ${playerId} left queue`);
-}
+    console.log(`✅ ${player.username} joined the queue ${queueKey}`);
+    return true;
+};
+
+export const leaveQueue = async (socketId) => {
+    for (const rank of rankOrder) {
+        const queueKey = queueKeyForRank(rank);
+        const players = JSON.parse(await redisClient.get(queueKey)) || [];
+        
+        const exists = players.some((p) => p.id === socketId);
+        if (exists) {
+        const updated = players.filter((p) => p.id !== socketId);
+        await redisClient.set(queueKey, JSON.stringify(updated));
+        console.log(`🚪 Player with ID ${socketId} left ${rank} queue`);
+        return;
+        }
+    }
+};
+
+export const findMatch = async (rank) => {
+  const rankIndex = rankOrder.indexOf(rank);
+  if (rankIndex === -1) {
+    console.error(`❌ Invalid rank: ${rank}`);
+    return null;
+  }
+
+  const currentKey = queueKeyForRank(rank);
+  const players = JSON.parse(await redisClient.get(currentKey)) || [];
+
+  if (players.length >= 2) {
+    const match = { id: Date.now(), players: players.slice(0, 2) };
+    await redisClient.set(currentKey, JSON.stringify(players.slice(2)));
+    console.log(`🎮 Match found in ${rank}: ${match.players.map(p => p.username).join(" vs ")}`);
+    return match;
+  }
+
+  const upperRank = rankOrder[rankIndex + 1];
+  if (upperRank) {
+    const upperKey = queueKeyForRank(upperRank);
+    const upperPlayers = JSON.parse(await redisClient.get(upperKey)) || [];
+    if (players.length >= 1 && upperPlayers.length >= 1) {
+      const match = {
+        id: Date.now(),
+        players: [players[0], upperPlayers[0]],
+      };
+      await redisClient.set(currentKey, JSON.stringify(players.slice(1)));
+      await redisClient.set(upperKey, JSON.stringify(upperPlayers.slice(1)));
+      console.log(`⚔️ Cross-rank match: ${rank} vs ${upperRank}`);
+      return match;
+    }
+  }
+
+  const lowerRank = rankOrder[rankIndex - 1];
+  if (lowerRank) {
+    const lowerKey = queueKeyForRank(lowerRank);
+    const lowerPlayers = JSON.parse(await redisClient.get(lowerKey)) || [];
+    if (players.length >= 1 && lowerPlayers.length >= 1) {
+      const match = {
+        id: Date.now(),
+        players: [players[0], lowerPlayers[0]],
+      };
+      await redisClient.set(currentKey, JSON.stringify(players.slice(1)));
+      await redisClient.set(lowerKey, JSON.stringify(lowerPlayers.slice(1)));
+      console.log(`⚔️ Cross-rank match: ${rank} vs ${lowerRank}`);
+      return match;
+    }
+  }
+
+  return null;
+};

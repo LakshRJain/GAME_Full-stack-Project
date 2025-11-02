@@ -7,7 +7,6 @@ export const register = async(req,res)=>{
     // Handle both camelCase and snake_case from frontend
     const {username,email,password,country,rank,avatarUrl,avatar_url}=req.body;
     const finalAvatarUrl = avatarUrl || avatar_url;
-    
     try{
         // Validate required fields
         if(!username || !email || !password){
@@ -33,7 +32,7 @@ export const register = async(req,res)=>{
             email,
             hashedPassword,
             country || null,
-            rank || null,
+            rank || "Iron",
             finalAvatarUrl || null
         ];
         
