@@ -26,8 +26,9 @@ class MatchmakingViewmodel extends ChangeNotifier{
       joinQueue(username,preferredMode,rank);
     });
     _socket.on("match_found", (data) {
-      final _data = jsonDecode(data);
-      _matchData = MatchRoom.fromJson(_data);
+      print(data);
+      _matchData = MatchRoom.fromJson(data);
+      print(_matchData);
       _searching = false;
       notifyListeners();
     });
