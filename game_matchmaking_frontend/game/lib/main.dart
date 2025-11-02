@@ -7,7 +7,7 @@ import 'package:game/views/login_screen.dart';
 import 'package:game/views/signup_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-Future main() async {
+Future main() async { 
   await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(

@@ -42,10 +42,10 @@ io.on("connection",(socket)=>{
     if (!joined) return;
     const match = await findMatch(player.rank);
     if (match) {
-      console.log(match[1]);
-      console.log(match[2]);
-      io.to(match[1]).emit("match_found", match);
-      io.to(match[2]).emit("match_found", match);
+      console.log(match['player1_id']);
+      console.log(match['player1_id']);
+      io.to(match['player1_id']).emit("match_found", match);
+      io.to(['player1_id']).emit("match_found", match);
     }
   });
   socket.on("leave_queue",async () => {
