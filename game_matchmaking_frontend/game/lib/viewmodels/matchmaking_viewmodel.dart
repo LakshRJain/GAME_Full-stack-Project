@@ -1,15 +1,18 @@
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:game/models/matchroom_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart';
 
 class MatchmakingViewmodel extends ChangeNotifier{
   late IO.Socket _socket;
   bool _searching=false;
-  Map<String,dynamic>? _matchData;
+  MatchRoom? _matchData;
 
   bool get searching =>_searching;
-  Map<String,dynamic>? get matchData => _matchData;
+  MatchRoom? get matchData => _matchData;
 
   void connect(String username,String preferredMode,String rank){
       _socket=IO.io("http://${dotenv.env['PUBLIC_IP']}:5001",IO.OptionBuilder()
@@ -23,7 +26,8 @@ class MatchmakingViewmodel extends ChangeNotifier{
       joinQueue(username,preferredMode,rank);
     });
     _socket.on("match_found", (data) {
-      _matchData = data;
+      final _data = jsonDecode(data);
+      _matchData = MatchRoom.fromJson(_data);
       _searching = false;
       notifyListeners();
     });

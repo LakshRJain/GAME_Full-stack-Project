@@ -44,7 +44,7 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Match Found'),
-            Text("${vm.matchData!['players'][0]['username']} : ${vm.matchData!['players'][1]['username']}"),
+            Text("${vm.matchData!.player1Username} : ${vm.matchData!.player2Username}"),
             ElevatedButton(onPressed: (){
               vm.leaveQueueAndDisconnect();
             }, 
