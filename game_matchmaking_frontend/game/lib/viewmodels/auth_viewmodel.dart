@@ -10,7 +10,13 @@ class AuthViewModel extends ChangeNotifier{
 
   UserModel? get user =>_user;
   bool get isLoading => _isLoading;
-
+  void clearUser(){
+    _isLoading=true;
+    notifyListeners();
+    _user=null;
+    _isLoading=false;
+    notifyListeners();
+  }
   Future<void> register(String username,String email,String password,String country) async{
     _isLoading=true;
     String rank="Iron";

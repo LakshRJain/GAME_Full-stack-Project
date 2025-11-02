@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game/models/user_model.dart';
+import 'package:game/viewmodels/auth_viewmodel.dart';
 import 'package:game/viewmodels/matchmaking_viewmodel.dart';
 import 'package:game/views/matchmaking_screen.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final profileVM = Provider.of<ProfileViewModel>(context);
     final MatchVM = Provider.of<MatchmakingViewmodel>(context);
-    
+    final authVm=Provider.of<AuthViewModel>(context);
     if (profileVM.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -69,6 +70,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black87,
+        actions: [
+          IconButton(onPressed: (){
+            authVm.clearUser();
+            Navigator.popAndPushNamed(context, '/login');
+          }, icon: authVm.isLoading?SingleChildScrollView():Icon(Icons.logout))  
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
