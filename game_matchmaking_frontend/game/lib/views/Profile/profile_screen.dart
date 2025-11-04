@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MatchmakingScreen()));
+        Navigator.pushNamed(context, '/matchmaking');
       },child: Text('Match'),),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(

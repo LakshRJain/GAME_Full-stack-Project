@@ -35,6 +35,27 @@ app.listen(process.env.PORT, '0.0.0.0', () => {
 let queue=[];
 io.on("connection",(socket)=>{
   console.log("User connected: ",socket.id);
+  socket.on("join_room",async ({roomId,username})=>{
+    socket.join(roomId);
+    console.log(`👥 ${username} joined room: ${roomId}`);
+    socket.to(roomId).emit("player_joined",{username});
+
+  });
+
+  socket.on("send_message",({roomId,sender,message})=>{
+    console.log(`💬 Message from ${sender} in room ${roomId}: ${message}`);
+    io.to(roomId).emit("receive_message",{sender,message});
+  });
+
+  socket.on("player_ready",({roomId,username})=>{
+    console.log(`✅ ${username} is ready in room ${roomId}`);
+    io.to(roomId).emit("ready_update", {
+      'username': username,
+      'ready': true  // or false depending on context
+    });
+
+
+  });
 
   socket.on("join_queue",async (data)=>{
     const player = { id: socket.id, username: data.username, mode: data.preferredMode,rank:data.rank };
@@ -48,9 +69,11 @@ io.on("connection",(socket)=>{
       io.to(match['player2_id']).emit("match_found", match);
     }
   });
+
   socket.on("leave_queue",async () => {
     await leaveQueue(socket.id);
   });
+
   socket.on("disconnect",async ()=>{
     await leaveQueue(socket.id);
     console.log("User disconnected:", socket.id);
