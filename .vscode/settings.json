@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "F:/Laksh laptop/flutter_projects/Full Stack Project/Game - Full Stack Project/game_matchmaking_frontend/game/linux"
+    "cmake.sourceDirectory": "F:/Laksh laptop/flutter_projects/Full Stack Project/Game - Full Stack Project/game_matchmaking_frontend/game/linux",
+    "cmake.ignoreCMakeListsMissing": true
 }

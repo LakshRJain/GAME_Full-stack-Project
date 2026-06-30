@@ -1,5 +1,4 @@
 class MatchRoom {
-  final int id;
   final String roomId;
   final String player1Id;
   final String player2Id;
@@ -10,7 +9,6 @@ class MatchRoom {
   final DateTime createdAt;
 
   MatchRoom({
-    required this.id,
     required this.roomId,
     required this.player1Id,
     required this.player2Id,
@@ -23,7 +21,6 @@ class MatchRoom {
 
   factory MatchRoom.fromJson(Map<String, dynamic> json) {
     return MatchRoom(
-      id: json['id'],
       roomId: json['room_id'],
       player1Id: json['player1_id'],
       player2Id: json['player2_id'],
@@ -37,7 +34,6 @@ class MatchRoom {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'room_id': roomId,
       'player1_id': player1Id,
       'player2_id': player2Id,

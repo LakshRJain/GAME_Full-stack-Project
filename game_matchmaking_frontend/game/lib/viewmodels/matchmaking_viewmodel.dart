@@ -7,7 +7,7 @@
   import 'package:flutter/material.dart';
 
   class MatchmakingViewmodel extends ChangeNotifier {
-    late IO.Socket _socket;
+    IO.Socket? _socket;
     bool _searching = false;
     MatchRoom? _matchData;
     List<Map<String,String>> _messages=[];
@@ -19,21 +19,28 @@
     MatchRoom? get matchData => _matchData;
 
     void connect(String username, String preferredMode, String rank) {
+      if (_socket != null) {
+        _socket!.clearListeners();
+        _socket!.disconnect();
+        _socket!.dispose();
+        _socket = null;
+      }
       _socket = IO.io(
         "http://${dotenv.env['PUBLIC_IP']}:5001",
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()
+            .enableForceNewConnection()
             .build(),
       );
-      _socket.connect();
-      _socket.onConnect((_) {
-        print("Conneced to matchmaking server");
+      _socket!.connect();
+      _socket!.onConnect((_) {
+        print("Connected to matchmaking server");
         joinQueue(username, preferredMode, rank);
       });
 
-      _socket.on("match_found", (data) {
-        _socket.emit('join_room', {
+      _socket!.on("match_found", (data) {
+        _socket!.emit('join_room', {
           'roomId': data['room_id'],
           'username': username,
         });
@@ -47,11 +54,11 @@
         notifyListeners();
       });
 
-      _socket.on("player_joined", (data) {
+      _socket!.on("player_joined", (data) {
         print("👥 Player joined room: ${data['username']}");
       });
 
-      _socket.on("receive_message", (data) {
+      _socket!.on("receive_message", (data) {
         print("💬 ${data['sender']}: ${data['message']}");
         _messages.add(
           {
@@ -62,22 +69,21 @@
         notifyListeners();
       });
 
-      _socket.on("ready_update", (data) {
+      _socket!.on("ready_update", (data) {
         String username = data['username'];
         bool isReady = data['ready'];
         _playersReadyStatus[username] = isReady;
         notifyListeners();
       });
 
-
-      _socket.onDisconnect((_) {
+      _socket!.onDisconnect((_) {
         print("🔌 Disconnected from matchmaking server");
       });
     }
 
     void joinQueue(String username, String preferredMode, String rank) {
       _searching = true;
-      _socket.emit("join_queue", {
+      _socket?.emit("join_queue", {
         "username": username,
         "preferredMode": preferredMode,
         "rank": rank,
@@ -86,9 +92,9 @@
     }
 
     void leaveQueueAndDisconnect() {
-      if (_socket.connected) {
-        _socket.emit("leave_queue");
-        _socket.disconnect();
+      if (_socket != null && _socket!.connected) {
+        _socket!.emit("leave_queue");
+        _socket!.disconnect();
         print("🚪 Left queue & disconnected");
       }
       _searching = false;
@@ -103,7 +109,7 @@
       _messages.add({"sender": sender, "message": message});
       notifyListeners();
 
-      _socket.emit("send_message", {
+      _socket?.emit("send_message", {
         "roomId": _matchData!.roomId,
         "sender": sender,
         "message": message,
@@ -113,13 +119,13 @@
 
     void markReady(String username){
       if(_matchData==null)return ;
-      _socket.emit("player_ready" , {
+      _socket?.emit("player_ready" , {
         "roomId":_matchData!.roomId,
         "username":username
       });
     }
 
     void disconnect() {
-      _socket.disconnect();
+      _socket?.disconnect();
     }
   }

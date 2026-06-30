@@ -59,7 +59,7 @@ io.on("connection",(socket)=>{
 
   socket.on("join_queue",async (data)=>{
     const player = { id: socket.id, username: data.username, mode: data.preferredMode,rank:data.rank };
-    const joined= joinQueue(player);
+    const joined = await joinQueue(player);
     if (!joined) return;
     const match = await findMatch(player.rank);
     if (match) {

@@ -1,10 +1,10 @@
 ###
-POST http://localhost:5000/api/auth/register
+POST http://13.216.254.164:5000/api/auth/register
 Content-Type: application/json
 
 {
   "username": "222",
-  "email": "111",
+  "email": "112",
   "password": "123456",
   "country": "India",
   "rank":"Bronze",
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://65.1.110.6:5000/api/auth/login
+POST http://13.216.254.164:5000/api/auth/login
 Content-Type: application/json
 
 {
@@ -21,23 +21,23 @@ Content-Type: application/json
 }
 
 ###
-POST http://65.1.110.6:5000/api/auth/removeUser
+POST http://13.216.254.164:5000/api/auth/removeUser
 Content-Type: application/json
 
 {
-    "email": "laksh@example.com"
+    "email": "111"
 }
 
 ###
-GET http://65.1.110.6:5000/api/user/profile
+GET http://13.216.254.164:5000/api/user/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiIxMTEiLCJpYXQiOjE3NjIwMjU0ODMsImV4cCI6MTc2MjAyNjM4M30.V0dQxUHwcaxVjGjHwwJGJn2Jx56eW2Gzc1mXAhYTUqo
 
 ###
-GET http://65.1.110.6:5000/api/user/all
+GET http://13.216.254.164:5000/api/user/all
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJMdWNreUBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTgxMTYyMiwiZXhwIjoxNzYyNDE2NDIyfQ.hCF_8GChMe0S9iLM9uFqg2WAwhkvuEg18vLMMHUVtas
 
 ###
-PUT http://65.1.110.6:5000/api/user/changePassword
+PUT http://13.216.254.164:5000/api/user/changePassword
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJMdWNreUBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTgxMTM2MCwiZXhwIjoxNzYyNDE2MTYwfQ.ScW7kKr5CYaZM2fORUJ5e5-Lqb6VYyqoamj51BHDLVY
 Content-Type: application/json
 
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://65.1.110.6:5000/api/user/updateProfile
+PUT http://13.216.254.164:5000/api/user/updateProfile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJMdWNreUBleGFtcGxlLmNvbSIsImlhdCI6MTc2MTgxMTM2MCwiZXhwIjoxNzYyNDE2MTYwfQ.ScW7kKr5CYaZM2fORUJ5e5-Lqb6VYyqoamj51BHDLVY
 Content-Type: application/json
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 
 
 ### 
-POST http://65.1.110.6:5000/api/auth/refresh
+POST http://13.216.254.164:5000/api/auth/refresh
 Content-Type: application/json
 
 # "token": "<refreshToken>"
@@ -72,15 +72,15 @@ Content-Type: application/json
 
 
 ###
-POST http://65.1.110.6:5000/api/auth/logout
+POST http://13.216.254.164:5000/api/auth/logout
 # Authorization: Bearer <accessToken>
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiIxMTEiLCJpYXQiOjE3NjIwMjU0ODMsImV4cCI6MTc2MjAyNjM4M30.V0dQxUHwcaxVjGjHwwJGJn2Jx56eW2Gzc1mXAhYTUqo
 
 ### GET Profile
-GET http://65.1.110.6:5000/api/user/profile
+GET http://13.216.254.164:5000/api/user/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiIxMTEiLCJpYXQiOjE3NjIwMjU0ODMsImV4cCI6MTc2MjAyNjM4M30.V0dQxUHwcaxVjGjHwwJGJn2Jx56eW2Gzc1mXAhYTUqo
 ### UPDATE Profile
-PUT http://65.1.110.6:5000/api/user/profile
+PUT http://13.216.254.164:5000/api/user/profile
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiIxMTEiLCJpYXQiOjE3NjIwMjU0ODMsImV4cCI6MTc2MjAyNjM4M30.V0dQxUHwcaxVjGjHwwJGJn2Jx56eW2Gzc1mXAhYTUqo
 {
