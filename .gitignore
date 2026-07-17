@@ -3,6 +3,7 @@
 
 # Ignore all .env files
 **/.env*
+!**/.env.example
 
 # Ignore all logs and build outputs
 **/logs/
@@ -12,3 +13,17 @@
 
 # FVM Version Cache
 .fvm/
+
+# HTTP client request files
+request.http
+
+# Editor and temporary files
+**/*.swp
+**/*.swo
+**/*.swn
+**/*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
